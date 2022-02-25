@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public Rigidbody rb;
 
-    public GameObject bullet;
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,16 +16,20 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.AddForce(Vector3.forward);
     }
 
 
     private void OnCollisionEnter(Collision other)
     {
-        Destroy(gameObject);
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.GetComponentInParent<Tank>())
         {
-            Destroy(other.gameObject);
+            Destroy(other.gameObject.GetComponentInParent<Tank>().gameObject);
         }
+
+        if (other.gameObject.GetComponentInParent<Turret>())
+        {
+            Destroy(other.gameObject.GetComponentInParent<Turret>().gameObject);
+        }
+        Destroy(gameObject);
     }
 }

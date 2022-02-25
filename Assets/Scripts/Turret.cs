@@ -6,42 +6,72 @@ using UnityEngine;
 public class Turret : BaseController
 {
     public Transform tankTransform;
-    public float detectionDistance=4f;
+    public float _detectionDistance=2f;
     private bool _isTankDetected = false;
-    private float _timeBeforeFire;
+    private float _timeBeforeFire=2f;
     private float _timer;
+    private float _timereset = 0f;
+    private bool canfire;
     
     void Start()
     {
-        
+        _timer = _timereset;
     }
     
     void Update()
     {
       IsTankDetected();
+      
     }
 
     private void IsTankDetected()
     {
+
         RaycastHit hit;
         Vector3 direction = Vector3.Normalize(tankTransform.position - headTransform.position);
-        if ( Physics.Raycast(headTransform.position,direction, out hit,detectionDistance ))
+        // Debug.DrawRay(headTransform.position, direction,Color.red,2f);
+
+        if ( Physics.Raycast(headTransform.position,direction, out hit,_detectionDistance ))
         {
-            if (hit.collider.GetComponentInParent<Tank>())
+            headTransform.LookAt(new Vector3(hit.point.x,headTransform.position.y,hit.point.z));
+
+            if (hit.collider.gameObject.GetComponentInParent<Tank>() != null)
             {
-                Debug.DrawLine(headTransform.position, direction,Color.red,1f);
+                headTransform.LookAt(new Vector3(hit.point.x,headTransform.position.y,hit.point.z));
+                // Debug.DrawRay(headTransform.position, direction,Color.red,2f);
+                 FireTimer();
+                 /*if (canfire)
+                 {
+                     StartCoroutine(FireTimer());
+                     print('d');
+                     canfire = true;
+                 }*/
             }
             
         }
         
-        
     }
 
-    /*private bool FireTimer()
+    private void FireTimer()
     {
-        yield return WaitForSeconds=2f;
+        if (_timer <= _timeBeforeFire)
+        {
+            _timer +=  Time.deltaTime;
+            if (_timer >= _timeBeforeFire)
+            {
+                Fire();
+                _timer = _timereset;
+            }
+        }
+    }
+    
+    
+   /*IEnumerator FireTimer()
+    {
+        yield return new WaitForSeconds(2f);
         Fire();
-        
+        canfire = false;
     }
     */
+   
 }

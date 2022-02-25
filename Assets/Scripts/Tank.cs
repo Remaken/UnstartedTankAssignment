@@ -44,7 +44,7 @@ public class Tank : BaseController
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray ,out hitmouse))
         {
-            
+            headTransform.LookAt(new Vector3(hitmouse.point.x, headTransform.position.y, hitmouse.point.z));
         }
         //TODO: Follow Mouse Mouvement
     }

@@ -9,6 +9,7 @@ public class BaseController : MonoBehaviour
     public Transform headTransform;
     public Transform projectileSpawnPoint;
     public GameObject projectilePrefab;
+    public Rigidbody rb;
     protected Vector3 headDirection;
     
     void Start()
@@ -29,6 +30,8 @@ public class BaseController : MonoBehaviour
 
     protected void Fire()
     {
-        Instantiate(projectilePrefab,projectileSpawnPoint);
+        GameObject bouboule =Instantiate(projectilePrefab,projectileSpawnPoint.position,Quaternion.LookRotation(headTransform.up));
+        rb = bouboule.GetComponent<Rigidbody>();
+        rb.AddForce(headTransform.forward*500);
     }
 }
