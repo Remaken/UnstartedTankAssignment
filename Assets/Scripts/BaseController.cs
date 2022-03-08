@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 public class BaseController : MonoBehaviour
 {
     public Tank tankManager;
+    public Turret turretManager;
     public Transform headTransform;
     public Transform projectileSpawnPoint;
     public GameObject projectilePrefab;

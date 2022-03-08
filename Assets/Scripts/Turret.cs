@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Turret : BaseController
 {
     public Transform tankTransform;
     public float _detectionDistance=2f;
-    private bool _isTankDetected = false;
     private float _timeBeforeFire=2f;
     private float _timer;
     private float _timereset = 0f;
-    private bool canfire;
     
     void Start()
     {
@@ -21,12 +20,10 @@ public class Turret : BaseController
     void Update()
     {
       IsTankDetected();
-      
     }
 
     private void IsTankDetected()
     {
-
         RaycastHit hit;
         Vector3 direction = Vector3.Normalize(tankTransform.position - headTransform.position);
         // Debug.DrawRay(headTransform.position, direction,Color.red,2f);
@@ -39,39 +36,32 @@ public class Turret : BaseController
             {
                 headTransform.LookAt(new Vector3(hit.point.x,headTransform.position.y,hit.point.z));
                 // Debug.DrawRay(headTransform.position, direction,Color.red,2f);
-                 FireTimer();
-                 /*if (canfire)
-                 {
-                     StartCoroutine(FireTimer());
-                     print('d');
-                     canfire = true;
-                 }*/
+                 //FireTimer();
+              StartCoroutine(FireTimer());
             }
             
         }
         
     }
 
-    private void FireTimer()
+    /*private void FireTimer()
     {
-        if (_timer <= _timeBeforeFire)
-        {
-            _timer +=  Time.deltaTime;
-            if (_timer >= _timeBeforeFire)
+            if (_timer <= _timeBeforeFire)
             {
-                Fire();
-                _timer = _timereset;
+                _timer +=  Time.deltaTime;
+                if (_timer >= _timeBeforeFire)
+                {
+                    Fire();
+                    _timer = _timereset;
+                }
             }
-        }
-    }
+    }*/
     
     
-   /*IEnumerator FireTimer()
+  IEnumerator FireTimer()
     {
         yield return new WaitForSeconds(2f);
         Fire();
-        canfire = false;
     }
-    */
    
 }

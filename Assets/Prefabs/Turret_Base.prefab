@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankManager: {fileID: 0}
+  turretManager: {fileID: 7187771889162922384}
   headTransform: {fileID: 8071371980835645713}
   projectileSpawnPoint: {fileID: 8071371979595550918}
   projectilePrefab: {fileID: 5274158157397765374, guid: c32a8f2805f1ad04a951e8c649a66edc, type: 3}
