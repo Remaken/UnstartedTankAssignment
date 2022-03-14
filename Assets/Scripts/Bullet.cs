@@ -3,20 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    public UnityEvent alert;
 
 
     private void OnCollisionEnter(Collision other)
@@ -28,6 +19,7 @@ public class Bullet : MonoBehaviour
 
         if (other.gameObject.GetComponentInParent<Turret>())
         {
+            alert.Invoke();
             Destroy(other.gameObject.GetComponentInParent<Turret>().gameObject);
         }
         Destroy(gameObject);
