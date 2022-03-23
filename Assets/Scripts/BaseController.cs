@@ -13,15 +13,6 @@ public class BaseController : MonoBehaviour
     public Rigidbody rb;
     protected Vector3 headDirection;
     
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-    }
 
 
     protected void RotateHeadTowardDirection()
@@ -29,10 +20,14 @@ public class BaseController : MonoBehaviour
         tankManager.GetMousePosition();
     }
 
-    protected void Fire()
+    protected IEnumerator Fire()
     {
+        yield return new WaitForSeconds(2*Time.deltaTime);
         GameObject bouboule =Instantiate(projectilePrefab,projectileSpawnPoint.position,Quaternion.LookRotation(headTransform.up));
         rb = bouboule.GetComponent<Rigidbody>();
-        rb.AddForce(headTransform.forward*500);
+        rb.AddForce(headTransform.forward*1000);
     }
+
+
+ 
 }

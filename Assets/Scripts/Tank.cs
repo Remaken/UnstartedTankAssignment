@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,21 +7,24 @@ public class Tank : BaseController
 {
     [SerializeField] private float _movespeed;
     [SerializeField] private float _rotatepeed;
-    void Start()
-    {
-        
-    }
     void Update()
     {
-        GetMouseClick();
+        TankFire();
         RotateHeadTowardDirection();
+    }
+
+    private void FixedUpdate()
+    {
         MoveTank();
     }
 
     private void MoveTank()
     {
-        
-        if (Input.GetKey(KeyCode.Z))
+     
+        this.transform.Translate(0f,0f,Input.GetAxis("Vertical")*_movespeed * Time.fixedDeltaTime);
+       this.transform.Rotate(new Vector3(0f, Input.GetAxis("Horizontal")*_movespeed*10f*Time.fixedDeltaTime, 0f));
+
+        /*if (Input.GetKey(KeyCode.Z))
         {
             this.transform.Translate(new Vector3(0, 0, _movespeed * Time.deltaTime));
         }
@@ -35,7 +39,7 @@ public class Tank : BaseController
         if (Input.GetKey(KeyCode.D))
         {
             this.transform.Rotate(Vector3.up,_rotatepeed*Time.deltaTime);
-        }
+        }*/
     }
 
     public void GetMousePosition()
@@ -49,11 +53,11 @@ public class Tank : BaseController
         //TODO: Follow Mouse Mouvement
     }
 
-    private void GetMouseClick()
+    private void TankFire()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Fire();
+            StartCoroutine(Fire());
         }
         
     }

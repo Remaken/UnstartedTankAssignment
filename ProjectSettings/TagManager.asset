@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Turret
+  - PosA
+  - PosB
+  - PosC
+  - PosD
+  - Bullet
   layers:
   - Default
   - TransparentFX

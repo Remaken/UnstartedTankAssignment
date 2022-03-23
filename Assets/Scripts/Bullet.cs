@@ -7,11 +7,12 @@ using UnityEngine.Events;
 
 public class Bullet : MonoBehaviour
 {
-    public UnityEvent alert;
+    /*public delegate void BulletHit();
 
-
+    public static event BulletHit bulletHitted;*/
     private void OnCollisionEnter(Collision other)
-    {
+    {/*
+        bulletHitted?.Invoke();
         if (other.gameObject.GetComponentInParent<Tank>())
         {
             Destroy(other.gameObject.GetComponentInParent<Tank>().gameObject);
@@ -19,9 +20,8 @@ public class Bullet : MonoBehaviour
 
         if (other.gameObject.GetComponentInParent<Turret>())
         {
-            alert.Invoke();
             Destroy(other.gameObject.GetComponentInParent<Turret>().gameObject);
-        }
-        Destroy(gameObject);
+        }*/
+      Destroy(gameObject);
     }
 }
