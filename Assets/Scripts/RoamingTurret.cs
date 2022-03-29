@@ -14,19 +14,19 @@ public class RoamingTurret : Turret
     {
         roamingTurret = GetComponent<NavMeshAgent>();
         state = TurretState.Searching;
-        HP = 1;
+        HP = 2;
         roamingTurret.SetDestination(positionDeDeplacement[0].position);
     }
 
     private void Update()
     {
         Roaming();
-        TankFollow();
         if (CheckForTransition())
         {
             TransitionOrChangeState();
         }
         StateBehaviour();
+        HPManager();
     }
     private void Roaming()
     {
@@ -77,4 +77,5 @@ public class RoamingTurret : Turret
             roamingTurret.SetDestination(tankTransform.position);
         }
     }
+
 }

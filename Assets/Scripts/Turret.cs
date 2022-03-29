@@ -16,14 +16,16 @@ public class Turret : BaseController
     public TurretState state = TurretState.None;
     public TurretState nextState = TurretState.None;
 
+    [SerializeField] protected MeshRenderer HPColorManager;
     protected Vector3 directionTank;
     protected RaycastHit chercheurTank;
     public Transform tankTransform;
-    public float detectionDistance=2f;
-    public float fireDistance = 2f;
+    [SerializeField] private float detectionDistance=2f;
+    [SerializeField] private float followDistance = 2f;
+    [SerializeField]private float fireDistance = 4f;
     protected float _timereset = 0f;
     protected bool isRotating=true;
-    protected int HP = 3;
+    protected int HP = 4;
     
     void Start()
     {
@@ -101,9 +103,10 @@ public class Turret : BaseController
     {
         directionTank = Vector3.Normalize(tankTransform.position - headTransform.position);
         if ( Physics.Raycast(headTransform.position,directionTank, out chercheurTank,detectionDistance ))
-        {
+        { 
             if (chercheurTank.collider.gameObject.GetComponentInParent<Tank>() != null)
             {
+                Debug.DrawRay(transform.position, directionTank, Color.green);
                 return true;
             }
         }
@@ -114,37 +117,56 @@ public class Turret : BaseController
 
     protected void TurretSearching()
     {
-        if (isRotating)
-        {
-            headTransform.RotateAround(headTransform.position,Vector3.up,0.5f);   
-        }
-       
-    }
-protected void TurretShoot()
-    {
-        if (Physics.Raycast(headTransform.position, directionTank, out chercheurTank, fireDistance)) 
-        {
-            isRotating =false;
-            headTransform.LookAt(new Vector3(chercheurTank.point.x, headTransform.position.y, chercheurTank.point.z));
-            if (chercheurTank.collider.gameObject.GetComponentInParent<Tank>() != null)
+            if (isRotating)
             {
-                StartCoroutine(Fire());
+                headTransform.RotateAround(headTransform.position,Vector3.up,0.5f);   
+            }
+    }
+    protected void TurretShoot()
+        {
+            if (Physics.Raycast(headTransform.position, directionTank, out chercheurTank, followDistance)) 
+            {
+                isRotating =false;
+                headTransform.LookAt(new Vector3(chercheurTank.point.x, headTransform.position.y, chercheurTank.point.z));
+                if ((chercheurTank.collider.gameObject.GetComponentInParent<Tank>() != null)&&(Physics.Raycast(headTransform.position, directionTank, out chercheurTank, fireDistance))) 
+                {
+                    StartCoroutine(Fire());
+                }
             }
         }
-    }
 
-private void OnTriggerEnter(Collider other)
-{ 
-    if ((HP>0)&&(other.gameObject.CompareTag("Bullet")))
-    {
-        HP--;
-        if (HP<=0)
+    private void OnTriggerEnter(Collider other)
+    { 
+        if ((HP>0)&&(other.gameObject.CompareTag("Bullet")))
         {
-            Destroy(gameObject.GetComponentInParent<Turret>().gameObject);
-        }   
+            HP--;
+            HPManager();
+            if (HP<=0)
+            {
+                Destroy(gameObject.GetComponentInParent<Turret>().gameObject);
+            }   
+        }
     }
-}
 
+    protected void HPManager()
+    {
+            Color newColor = new Color(128f,0f,0f);
+            if (HP==3)
+            {
+                HPColorManager.material.SetColor("_Color", Color.yellow);
+            }
+            if (HP==2)
+            {
+                HPColorManager.material.SetColor("_Color", /*newColor*/ Color.magenta);
+                HPColorManager.transform.localScale = new Vector3(0.5f, 0.8f, 0.5f);
+                
+            }
+            if (HP==1)
+            {  
+                HPColorManager.material.SetColor("_Color", Color.red);
+                HPColorManager.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            }
+        }
 void codeUtiliséInutile()
     {
         

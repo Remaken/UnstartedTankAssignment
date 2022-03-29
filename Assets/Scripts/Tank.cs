@@ -55,7 +55,7 @@ public class Tank : BaseController
 
     private void TankFire()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             StartCoroutine(Fire());
         }
