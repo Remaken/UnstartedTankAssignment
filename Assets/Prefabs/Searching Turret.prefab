@@ -61,9 +61,9 @@ MonoBehaviour:
   nextState: 0
   HPColorManager: {fileID: 150970777639962049}
   tankTransform: {fileID: 0}
-  detectionDistance: 5000
-  followDistance: 5000
-  fireDistance: 2
+  detectionDistance: 30
+  followDistance: 20
+  fireDistance: 10
   positionDeDeplacement: []
 --- !u!65 &6838331197458158349
 BoxCollider:

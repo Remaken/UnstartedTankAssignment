@@ -93,7 +93,6 @@ public class Turret : BaseController
                 break;
             case TurretState.TankDetected:
                 TurretShoot();
-                print("tank found");
 
                 break;
         }
@@ -110,19 +109,23 @@ public class Turret : BaseController
                 return true;
             }
         }
+        else isRotating = true;
 
-        isRotating = true;
         return false;
     }
 
     protected void TurretSearching()
     {
-            if (isRotating)
+        if (!IsTankDetected())
+        {
+            if (isRotating == true)
             {
                 headTransform.RotateAround(headTransform.position,Vector3.up,0.5f);   
             }
+        }
+            
     }
-    protected void TurretShoot()
+    protected bool TurretShoot()
         {
             if (Physics.Raycast(headTransform.position, directionTank, out chercheurTank, followDistance)) 
             {
@@ -133,6 +136,8 @@ public class Turret : BaseController
                     StartCoroutine(Fire());
                 }
             }
+
+            return true;
         }
 
     private void OnTriggerEnter(Collider other)

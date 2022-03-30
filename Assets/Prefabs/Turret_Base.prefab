@@ -183,7 +183,7 @@ MonoBehaviour:
   nextState: 0
   HPColorManager: {fileID: 7079357071708210448}
   tankTransform: {fileID: 429646801708134663, guid: 01fb1086312535142960c9d0e5c31342, type: 3}
-  detectionDistance: 2
+  detectionDistance: 40
   followDistance: 2
   fireDistance: 2
 --- !u!65 &325120070353127206

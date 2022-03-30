@@ -2,15 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Tank : BaseController
 {
     [SerializeField] private float _movespeed;
     [SerializeField] private float _rotatepeed;
+    private bool canCheat = false;
+    private bool canCheatTwo = false;
+    [SerializeField] private GameObject _murs;
     void Update()
     {
         TankFire();
         RotateHeadTowardDirection();
+        CheatCode();
     }
 
     private void FixedUpdate()
@@ -60,5 +65,30 @@ public class Tank : BaseController
             StartCoroutine(Fire());
         }
         
+    }
+
+    private void CheatCode()
+    {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    canCheat = true;
+                }
+            }
+        }
+        
+        if (Input.GetKey(KeyCode.L)&&canCheat==true)
+        {
+            canCheatTwo = true;
+        }
+        if (Input.GetKey(KeyCode.Return)&&canCheatTwo==true)
+        {
+            _murs.SetActive(false);
+            canCheat = false;
+            canCheatTwo = false;
+        }
     }
 }
