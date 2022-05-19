@@ -12,24 +12,83 @@ public class RoamingTurret : Turret
     private bool[] checkPositions = {true, false, false, false};
     private Vector3 _exDestination;
     private bool detec = false;
+    public TurretState state = TurretState.None;
+    public TurretState nextState = TurretState.None;
     private void Start()
     {
         roamingTurret = GetComponent<NavMeshAgent>();
         state = TurretState.Searching;
         HP = 2;
         roamingTurret.SetDestination(positionDeDeplacement[0].position);
+        print(IsTankDetected());
     }
 
     private void Update()
     {
-        Roaming();
         if (CheckForTransition())
         {
             TransitionOrChangeState();
         }
         StateBehaviour();
         HPManager();
-        TankFollow();
+    }
+
+    private bool CheckForTransition()
+    {
+        switch (state)
+        {
+            case TurretState.None:
+                break;
+            case TurretState.Searching:
+                Roaming();
+                if (IsTankDetected())
+                {
+                    print("is searching");
+                    nextState = TurretState.TankDetected;
+                    TankFollow();
+                    return true;
+                }
+                TurretSearching();
+                break;
+            case TurretState.TankDetected:
+                if (!IsTankDetected())
+                {
+                    nextState = TurretState.Searching;
+                    return true;
+                }
+                isRotating = true;
+                break;
+        }
+        return false;
+    }
+
+    private void TransitionOrChangeState()
+    {
+        switch (nextState)
+        {
+            case TurretState.None:
+                break;
+            case TurretState.Searching:
+                break;
+            case TurretState.TankDetected:
+                break;
+        }
+
+        state = nextState;
+    }
+    private void StateBehaviour()
+    {
+        switch (state)
+        {
+            case TurretState.None:
+                break;
+            case TurretState.Searching:
+                break;
+            case TurretState.TankDetected:
+                TurretShoot();
+
+                break;
+        }
     }
     private void Roaming()
     {

@@ -41,7 +41,7 @@ public class Turret : BaseController
         StateBehaviour();
     }
 
-    protected bool CheckForTransition()
+    private bool CheckForTransition()
     {
         switch (state)
         {
@@ -68,7 +68,7 @@ public class Turret : BaseController
         return false;
     }
 
-    protected void TransitionOrChangeState()
+    private void TransitionOrChangeState()
     {
         switch (nextState)
         {
@@ -83,7 +83,7 @@ public class Turret : BaseController
         state = nextState;
     }
 
-    protected void StateBehaviour()
+    private void StateBehaviour()
     {
         switch (state)
         {
@@ -106,6 +106,7 @@ public class Turret : BaseController
             if (chercheurTank.collider.gameObject.GetComponentInParent<Tank>() != null)
             {
                 Debug.DrawRay(transform.position, directionTank, Color.green);
+                isRotating = false;
                 return true;
             }
         }
